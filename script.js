@@ -106,16 +106,3 @@ function flipCard() {
 }
 
 createBoard()
-
-/* 
-    
-    1) pura  blank
-    2) jisko touch kiya uska image dikhna chahiye
-    3) jisko touch kiya uska image dikhna chahiye
-       a) if img1 == img2 =>> good 1 point
-            both image ==>> should become white
-       b) if img1 != img2 =>> oops try again
-            both image should become blank
-    4) step 2 again jab tak pura page white nhi hota
-    5)you won
-*/
