@@ -1,108 +1,113 @@
-const cardArray = [{
-        name: 'img1',
+const cardsArray = [{
+        name: "img1",
         img: 'images/img1.png'
     },
     {
-        name: 'img2',
+        name: "img2",
         img: 'images/img2.png'
     },
     {
-        name: 'img3',
+        name: "img3",
         img: 'images/img3.png'
     },
     {
-        name: 'img4',
+        name: "img4",
         img: 'images/img4.png'
     },
     {
-        name: 'img5',
+        name: "img5",
         img: 'images/img5.png'
     },
     {
-        name: 'img6',
+        name: "img6",
         img: 'images/img6.png'
     },
     {
-        name: 'img1',
+        name: "img1",
         img: 'images/img1.png'
     },
     {
-        name: 'img2',
+        name: "img2",
         img: 'images/img2.png'
     },
     {
-        name: 'img3',
+        name: "img3",
         img: 'images/img3.png'
     },
     {
-        name: 'img4',
+        name: "img4",
         img: 'images/img4.png'
     },
     {
-        name: 'img5',
+        name: "img5",
         img: 'images/img5.png'
     },
     {
-        name: 'img6',
+        name: "img6",
         img: 'images/img6.png'
     }
 ]
 
-cardArray.sort(() => 0.5 - Math.random())
-const grid = document.querySelector(".grid")
-const resultDisplay = document.querySelector('#result')
-var cardsChosen = []
-var cardsChosenId = []
-var cardsWon = []
+cardsArray.sort(() => 0.5 - Math.random())
+const grid = document.querySelector(".grid");
+const result = document.querySelector('#result');
+var cardChosen = [];
+var cardChosenId = [];
+var cardsWon = [];
 
-//create your board
+//create board
 
 function createBoard() {
-    for (let i = 0; i < cardArray.length; i++) {
+    for (let i = 0; i < cardsArray.length; i++) {
         var card = document.createElement('img')
         card.setAttribute('src', 'images/blank.png')
         card.setAttribute('data-id', i)
         card.addEventListener('click', flipCard)
-        grid.appendChild(card)
+        grid.appendChild(card);
     }
 }
-
-function checkForMatch() {
-    const cards = document.querySelectorAll('img')
-    const optionOneId = cardsChosenId[0]
-    const optionTwoId = cardsChosenId[1]
-    if (optionTwoId == optionOneId) {
-        cards[optionOneId].setAttribute('src', 'images/blank.png')
-        cards[optionTwoId].setAttribute('src', 'images/blank.png')
-        alert('you have clicked the same image')
-    } else if (cardsChosen[0] === cardsChosen[1]) {
-        alert('you found a match')
-        cards[optionOneId].setAttribute('src', 'images/white.png')
-        cards[optionTwoId].setAttribute('src', 'images/white.png')
-        cardsWon.push(cardsChosen)
-    } else {
-        cards[optionOneId].setAttribute('src', 'images/blank.png')
-        cards[optionTwoId].setAttribute('src', 'images/blank.png')
-        alert('sorry, try again')
-    }
-    cardsChosen = []
-    cardsChosenId = []
-    resultDisplay.textContent = cardsWon.length
-    if (cardsWon.length === cardArray.length / 2) {
-        resultDisplay.textContent = 'congratulation! you found them all'
-    }
-}
-
-//flip your card
 
 function flipCard() {
+    const cards = document.querySelectorAll('img')
     var cardId = this.getAttribute('data-id')
-    cardsChosen.push(cardArray[cardId].name)
-    cardsChosenId.push(cardId)
-    this.setAttribute('src', cardArray[cardId].img)
-    if (cardsChosen.length === 2) {
-        setTimeout(checkForMatch, 500)
+
+    if (cards[cardId].getAttribute('src') != "images/white.png") {
+        cardChosen.push(cardsArray[cardId].name)
+        cardChosenId.push(cardId)
+        this.setAttribute('src', cardsArray[cardId].img)
     }
+
+    if (cardChosen.length == 2) {
+        setTimeout(checkCards, 500);
+    }
+}
+
+//checkCards
+
+function checkCards() {
+    const cards = document.querySelectorAll('img')
+    var cardOne = cardChosenId[0];
+    var cardTwo = cardChosenId[1];
+    if (cardOne == cardTwo) {
+        alert("you clicked the same image..")
+        cards[cardOne].setAttribute('src', 'images/blank.png')
+        cards[cardTwo].setAttribute('src', 'images/blank.png')
+    } else if (cardChosen[0] === cardChosen[1]) {
+
+        cards[cardOne].setAttribute('src', 'images/white.png')
+        cards[cardTwo].setAttribute('src', 'images/white.png')
+        cardsWon.push(cardChosenId)
+    } else {
+        cards[cardOne].setAttribute('src', 'images/blank.png')
+        cards[cardTwo].setAttribute('src', 'images/blank.png')
+        alert('wrong cards..')
+    }
+    result.textContent = "Score :" + cardsWon.length
+    if (cardsWon.length == cardsArray.length / 2) {
+        result.textContent = "congratulations.. you found them all"
+    }
+    cardChosen = []
+    cardChosenId = []
 }
 
 createBoard()
